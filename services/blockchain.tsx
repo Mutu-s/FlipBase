@@ -83,9 +83,19 @@ const getOwner = async (): Promise<string> => {
 }
 
 const getGames = async (): Promise<GameStruct[]> => {
-  const contract = await getEthereumContracts()
-  const games = await contract.getGames()
-  return structuredGames(games)
+  try {
+    const contract = await getEthereumContracts()
+    const games = await contract.getGames()
+    return structuredGames(games)
+  } catch (error: any) {
+    console.error('Error in getGames:', {
+      message: error?.message,
+      contractAddress: address.flipBaseContract,
+      hasAbi: flipBaseAbi.abi?.length > 0,
+    })
+    // Return empty array instead of throwing to prevent 500 errors
+    return []
+  }
 }
 
 const getMyGames = async (): Promise<GameStruct[]> => {
