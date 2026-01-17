@@ -9,12 +9,17 @@ const nextConfig = {
       },
     ],
   },
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
       fs: false,
       net: false,
       tls: false,
+    }
+    // Ignore React Native specific modules for MetaMask SDK (browser only)
+    if (!isServer) {
+      config.resolve.fallback['@react-native-async-storage/async-storage'] = false
+      config.resolve.fallback['react-native'] = false
     }
     return config
   },
