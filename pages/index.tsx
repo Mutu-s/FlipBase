@@ -56,8 +56,13 @@ export const getServerSideProps = async () => {
     return {
       props: { gamesData: JSON.parse(JSON.stringify(gamesData)) },
     }
-  } catch (error) {
-    console.error('Error fetching games:', error)
+  } catch (error: any) {
+    // Log detailed error for debugging
+    console.error('Error in getServerSideProps:', {
+      message: error?.message,
+      stack: error?.stack,
+      name: error?.name,
+    })
     // Return empty array on error to prevent 500
     return {
       props: { gamesData: [] },

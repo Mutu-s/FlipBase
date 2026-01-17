@@ -41,20 +41,34 @@ const getEthereumContracts = async () => {
   // Server-side: always use RPC provider
   if (typeof window === 'undefined') {
     const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL || process.env.BASE_RPC_URL || 'https://mainnet.base.org'
-    const provider = new ethers.JsonRpcProvider(rpcUrl)
-    const contracts = new ethers.Contract(address.flipBaseContract, flipBaseAbi.abi, provider)
-    return contracts
+    try {
+      const provider = new ethers.JsonRpcProvider(rpcUrl)
+      const contracts = new ethers.Contract(address.flipBaseContract, flipBaseAbi.abi, provider)
+      return contracts
+    } catch (error: any) {
+      console.error('Error creating server-side contract:', error)
+      throw new Error(`Failed to create contract instance: ${error?.message || 'Unknown error'}`)
+    }
   }
 
   // Client-side: try browser provider first, fallback to RPC
-  const accounts = await ethereum?.request?.({ method: 'eth_accounts' })
+  try {
+    const accounts = await ethereum?.request?.({ method: 'eth_accounts' })
 
-  if (accounts?.length > 0 && ethereum) {
-    const provider = new ethers.BrowserProvider(ethereum)
-    const signer = await provider.getSigner()
-    const contracts = new ethers.Contract(address.flipBaseContract, flipBaseAbi.abi, signer)
-    return contracts
-  } else {
+    if (accounts?.length > 0 && ethereum) {
+      const provider = new ethers.BrowserProvider(ethereum)
+      const signer = await provider.getSigner()
+      const contracts = new ethers.Contract(address.flipBaseContract, flipBaseAbi.abi, signer)
+      return contracts
+    } else {
+      const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL || process.env.BASE_RPC_URL || 'https://mainnet.base.org'
+      const provider = new ethers.JsonRpcProvider(rpcUrl)
+      const contracts = new ethers.Contract(address.flipBaseContract, flipBaseAbi.abi, provider)
+      return contracts
+    }
+  } catch (error: any) {
+    console.error('Error creating client-side contract:', error)
+    // Fallback to RPC provider
     const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL || process.env.BASE_RPC_URL || 'https://mainnet.base.org'
     const provider = new ethers.JsonRpcProvider(rpcUrl)
     const contracts = new ethers.Contract(address.flipBaseContract, flipBaseAbi.abi, provider)
