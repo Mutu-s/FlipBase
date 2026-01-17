@@ -38,6 +38,9 @@ yarn-error.log*
 /artifacts
 /typechain-types
 
+# Keep compiled contract ABI (needed for frontend)
+!/artifacts/contracts/FlipBase.sol/FlipBase.json
+
 # environment
 .env
 .env.local

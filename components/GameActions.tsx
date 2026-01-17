@@ -18,7 +18,6 @@ const GameActions: React.FC<{ game: GameStruct }> = ({ game }) => {
       new Promise(async (resolve, reject) => {
         deleteGame(game.id)
           .then((tx) => {
-            console.log(tx)
             resolve(tx)
           })
           .catch((error) => reject(error))

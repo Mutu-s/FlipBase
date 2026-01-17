@@ -55,9 +55,9 @@ export function MiniAppSDKProvider({ children }: { children: ReactNode }) {
       try {
         miniapp.actions.ready()
         setIsReady(true)
-        console.log('Farcaster Mini App SDK initialized')
       } catch (error) {
-        console.error('Error initializing Farcaster Mini App SDK:', error)
+        // Silently handle initialization errors
+        setIsReady(true) // Continue anyway
       }
     } else {
       // Not in miniapp context, continue normally

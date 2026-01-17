@@ -80,8 +80,6 @@ export function composeCast(text: string, embeds?: string[]): void {
   const { actions } = getMiniappSDK()
   if (actions?.composeCast) {
     actions.composeCast({ text, embeds })
-  } else {
-    console.warn('composeCast not available - not in miniapp context')
   }
 }
 
@@ -92,8 +90,6 @@ export function viewCast(castHash: string): void {
   const { actions } = getMiniappSDK()
   if (actions?.viewCast) {
     actions.viewCast(castHash)
-  } else {
-    console.warn('viewCast not available - not in miniapp context')
   }
 }
 
@@ -104,8 +100,6 @@ export async function signIn(): Promise<void> {
   const { actions } = getMiniappSDK()
   if (actions?.signIn) {
     await actions.signIn()
-  } else {
-    console.warn('signIn not available - not in miniapp context')
   }
 }
 

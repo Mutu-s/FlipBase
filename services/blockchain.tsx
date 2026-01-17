@@ -1,10 +1,18 @@
 import { ethers } from 'ethers'
 import address from '@/contracts/contractAddress.json'
-import flipBaseAbi from '@/artifacts/contracts/FlipBase.sol/FlipBase.json'
 import { GameParams, GameStruct, InvitationStruct, ScoreStruct } from '@/utils/type.dt'
 import { globalActions } from '@/store/globalSlices'
 import { store } from '@/store'
 import { reportError } from '@/utils/helper'
+
+// Import ABI - will be available after running: yarn compile
+let flipBaseAbi: any
+try {
+  flipBaseAbi = require('@/artifacts/contracts/FlipBase.sol/FlipBase.json')
+} catch (error) {
+  console.warn('⚠️  Contract ABI not found. Please run: yarn compile')
+  flipBaseAbi = { abi: [] }
+}
 
 const toWei = (num: number) => ethers.parseEther(num.toString())
 const fromWei = (num: number) => ethers.formatEther(num)
@@ -16,6 +24,14 @@ let tx: any
 if (typeof window !== 'undefined') ethereum = (window as any).ethereum
 
 const getEthereumContracts = async () => {
+  if (!address.flipBaseContract) {
+    throw new Error('Contract address not found. Please deploy the contract first.')
+  }
+
+  if (!flipBaseAbi.abi || flipBaseAbi.abi.length === 0) {
+    throw new Error('Contract ABI not found. Please run: yarn compile')
+  }
+
   const accounts = await ethereum?.request?.({ method: 'eth_accounts' })
 
   if (accounts?.length > 0) {

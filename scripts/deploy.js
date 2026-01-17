@@ -9,7 +9,7 @@ async function deployContract() {
     contract = await ethers.deployContract('FlipBase', [taxPct])
     await contract.waitForDeployment()
 
-    console.log('Contracts deployed successfully.')
+    console.log('✅ Contract deployed successfully at:', contract.target)
     return contract
   } catch (error) {
     console.error('Error deploying contracts:', error)
@@ -29,9 +29,10 @@ async function saveContractAddress(contract) {
 
     fs.writeFile('./contracts/contractAddress.json', address, 'utf8', (error) => {
       if (error) {
-        console.error('Error saving contract address:', err)
+        console.error('Error saving contract address:', error)
       } else {
-        console.log('Deployed contract address:', address)
+        console.log('✅ Contract deployed at:', contract.target)
+        console.log('📄 Address saved to contracts/contractAddress.json')
       }
     })
   } catch (error) {

@@ -78,7 +78,7 @@ export function FarcasterProvider({ children }: { children: ReactNode }) {
           }
         }
       } catch (error) {
-        console.error('Error fetching Farcaster user:', error)
+        // Silently handle errors - app works without Farcaster context
       } finally {
         setLoading(false)
       }

@@ -33,7 +33,6 @@ const Page: NextPage<PageProps> = ({ gameData, scoresData }) => {
       new Promise<void>((resolve, reject) => {
         payout(game.id)
           .then((tx) => {
-            console.log(tx)
             resolve(tx)
           })
           .catch((error) => reject(error))

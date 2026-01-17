@@ -37,7 +37,7 @@ The core of the contract is defined by four primary structures: `GameStruct`, `P
 
 ### Environment Setup
 
-1. Copy the `.env.example` file to `.env`:
+1. Copy `.env.example` to `.env`:
 ```bash
 cp .env.example .env
 ```
@@ -45,23 +45,28 @@ cp .env.example .env
 2. Fill in your environment variables in `.env`:
 
 ```sh
-# Next.js Environment Variables
+# Base Mainnet RPC Configuration
+BASE_RPC_URL=https://mainnet.base.org
 NEXT_PUBLIC_RPC_URL=https://mainnet.base.org
-NEXT_PUBLIC_ALCHEMY_ID=your_alchemy_project_id
+
+# WalletConnect Project ID (required)
 NEXT_PUBLIC_PROJECT_ID=your_walletconnect_project_id
 
-# Base Mainnet Configuration
-BASE_RPC_URL=https://mainnet.base.org
+# Private Key for Contract Deployment (required for deployment)
+PRIVATE_KEY=your_private_key_here
+
+# BaseScan API Key (optional, for contract verification)
 BASESCAN_API_KEY=your_basescan_api_key_here
 
 # NextAuth Configuration
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=your_nextauth_secret_key_here
 
-# Hardhat Configuration (for deployment)
-PRIVATE_KEY=your_private_key_here
-ETHERSCAN_API_KEY=your_etherscan_api_key_here
+# Alchemy API Key (optional, for better RPC performance)
+NEXT_PUBLIC_ALCHEMY_ID=your_alchemy_project_id
 ```
+
+**⚠️ Security Note:** Never commit your `.env` file to Git. It contains sensitive information like your private key.
 
 **Where to get keys:**
 - `NEXT_PUBLIC_ALCHEMY_ID`: [Get Key Here](https://dashboard.alchemy.com/) (Create a Base mainnet app)
@@ -76,27 +81,32 @@ ETHERSCAN_API_KEY=your_etherscan_api_key_here
 yarn install
 ```
 
-2. For local development, start the local Hardhat blockchain (forking Base):
+2. Compile the smart contract:
+```bash
+yarn compile
+```
+
+3. For local development, start the local Hardhat blockchain (forking Base):
 ```bash
 yarn blockchain
 ```
 
-3. In a new terminal, deploy the contract to Base mainnet:
+4. In a new terminal, deploy the contract to Base mainnet:
 ```bash
-yarn deploy --network base
+yarn deploy
 ```
 
-4. (Optional) Seed the contract with sample data:
+5. (Optional) Seed the contract with sample data:
 ```bash
 yarn seed
 ```
 
-5. Start the Next.js development server:
+6. Start the Next.js development server:
 ```bash
 yarn dev
 ```
 
-6. Open [http://localhost:3000](http://localhost:3000) in your browser.
+7. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## 📚 Tech Stack
 
@@ -138,23 +148,31 @@ yarn dev
 - `yarn start` - Start production server
 - `yarn lint` - Run ESLint
 - `yarn format` - Format code with Prettier
+- `yarn compile` - Compile smart contracts
 - `yarn blockchain` - Start local Hardhat node (forks Base mainnet)
 - `yarn deploy` - Deploy contracts to Base mainnet
+- `yarn deploy:local` - Deploy to local Hardhat node
 - `yarn seed` - Seed contract with sample data
 - `yarn test` - Run Hardhat tests
+- `yarn generate-assets` - Generate PNG assets from SVG files
 
 ## 📖 Project Structure
 
 ```
-├── components/          # React components
+├── components/          # React UI components
 ├── contracts/          # Solidity smart contracts
-├── pages/              # Next.js pages
+├── hooks/              # Custom React hooks
+├── pages/              # Next.js pages and API routes
+├── public/             # Static assets and manifest
+├── scripts/            # Deployment and utility scripts
 ├── services/           # Blockchain and provider services
 ├── store/              # Redux store and slices
 ├── styles/             # Global styles
-├── utils/              # Utility functions
-└── scripts/            # Deployment and seeding scripts
+├── test/               # Contract tests
+└── utils/              # Utility functions and types
 ```
+
+📖 See [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md) for detailed structure.
 
 ## 🌐 Network Configuration
 
@@ -192,6 +210,7 @@ yarn dev
 - ✅ Frame lifecycle management with `ready()` signal
 - ✅ Updated network configuration for Base mainnet
 - ✅ Optimized for Base mainnet deployment
+- ✅ Code cleanup: Removed unused dependencies and files
 - ✅ Enhanced error handling with user-friendly messages
 - ✅ Improved TypeScript configuration
 - ✅ Added dark mode support

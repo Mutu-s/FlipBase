@@ -37,7 +37,7 @@ const Page: NextPage<{ gamesData: GameStruct[] }> = ({ gamesData }) => {
       </Head>
       <Hero />
 
-      {games.length > 1 && (
+      {games.length > 0 && (
         <>
           <GameList games={games} />
           <GameDetails />

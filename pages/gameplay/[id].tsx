@@ -138,7 +138,6 @@ const Page: NextPage<PageComponents> = ({ gameData, playerAddresses, scoresData 
       new Promise<void>((resolve, reject) => {
         saveScore(player.gameId, player.id, flipCount)
           .then((tx) => {
-            console.log(tx)
             resetGame()
             resolve(tx)
           })

@@ -24,7 +24,6 @@ const GameInvitations: React.FC<ComponentProps> = ({ invitations, game, label })
       new Promise<void>((resolve, reject) => {
         respondToInvite(accept, invitation, index)
           .then((tx) => {
-            console.log(tx)
             resolve(tx)
           })
           .catch((error) => reject(error))

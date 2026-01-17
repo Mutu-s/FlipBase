@@ -53,7 +53,6 @@ const CreateGame: React.FC = () => {
       new Promise(async (resolve, reject) => {
         createGame(game)
           .then((tx) => {
-            console.log(tx)
             closeModal()
             resolve(tx)
           })

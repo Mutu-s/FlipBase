@@ -22,7 +22,6 @@ const InviteModal: React.FC = () => {
       new Promise(async (resolve, reject) => {
         invitePlayer(player, game?.id)
           .then((tx) => {
-            console.log(tx)
             closeModal()
             resolve(tx)
           })

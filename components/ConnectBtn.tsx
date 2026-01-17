@@ -103,9 +103,6 @@ const ConnectBtn: React.FC = () => {
                     type="button"
                   >
                     {account.displayName}
-                    {/* {account.displayBalance
-                      ? ` (${account.displayBalance})`
-                      : ''} */}
                   </button>
                 </div>
               )
