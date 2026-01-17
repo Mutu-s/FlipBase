@@ -51,8 +51,16 @@ const Page: NextPage<{ gamesData: GameStruct[] }> = ({ gamesData }) => {
 export default Page
 
 export const getServerSideProps = async () => {
-  const gamesData: GameStruct[] = await getGames()
-  return {
-    props: { gamesData: JSON.parse(JSON.stringify(gamesData)) },
+  try {
+    const gamesData: GameStruct[] = await getGames()
+    return {
+      props: { gamesData: JSON.parse(JSON.stringify(gamesData)) },
+    }
+  } catch (error) {
+    console.error('Error fetching games:', error)
+    // Return empty array on error to prevent 500
+    return {
+      props: { gamesData: [] },
+    }
   }
 }

@@ -38,20 +38,26 @@ const getEthereumContracts = async () => {
     throw new Error('Contract ABI not found. Please run: yarn compile')
   }
 
+  // Server-side: always use RPC provider
+  if (typeof window === 'undefined') {
+    const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL || process.env.BASE_RPC_URL || 'https://mainnet.base.org'
+    const provider = new ethers.JsonRpcProvider(rpcUrl)
+    const contracts = new ethers.Contract(address.flipBaseContract, flipBaseAbi.abi, provider)
+    return contracts
+  }
+
+  // Client-side: try browser provider first, fallback to RPC
   const accounts = await ethereum?.request?.({ method: 'eth_accounts' })
 
-  if (accounts?.length > 0) {
+  if (accounts?.length > 0 && ethereum) {
     const provider = new ethers.BrowserProvider(ethereum)
     const signer = await provider.getSigner()
     const contracts = new ethers.Contract(address.flipBaseContract, flipBaseAbi.abi, signer)
-
     return contracts
   } else {
-    const provider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL)
-    const wallet = ethers.Wallet.createRandom()
-    const signer = wallet.connect(provider)
-    const contracts = new ethers.Contract(address.flipBaseContract, flipBaseAbi.abi, signer)
-
+    const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL || process.env.BASE_RPC_URL || 'https://mainnet.base.org'
+    const provider = new ethers.JsonRpcProvider(rpcUrl)
+    const contracts = new ethers.Contract(address.flipBaseContract, flipBaseAbi.abi, provider)
     return contracts
   }
 }
