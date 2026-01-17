@@ -1,0 +1,21 @@
+{
+  "accountAssociation": {
+    "header": "",
+    "payload": "",
+    "signature": ""
+  },
+  "miniapp": {
+    "version": "1",
+    "name": "FlipBase",
+    "description": "A Play-to-Earn gaming platform on Base mainnet. Create games, invite players, compete and earn rewards!",
+    "iconUrl": "/icon.png",
+    "homeUrl": "https://flipbase.xyz",
+    "canonicalDomain": "flipbase.xyz",
+    "requiredChains": ["eip155:8453"],
+    "tags": ["gaming", "play-to-earn", "base", "farcaster"],
+    "requiredCapabilities": ["actions.signIn", "actions.ready"],
+    "splashImageUrl": "/splash.png",
+    "splashBackgroundColor": "#010922",
+    "castShareUrl": "https://flipbase.xyz/share"
+  }
+}
