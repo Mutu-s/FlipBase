@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['next/core-web-vitals', 'next'],
+  extends: ['next/core-web-vitals'],
   env: {
     node: true,
     browser: true,
@@ -10,7 +10,6 @@ module.exports = {
   },
   rules: {
     'import/no-anonymous-default-export': 'off',
-    '@typescript-eslint/no-explicit-any': 'warn',
     'react-hooks/exhaustive-deps': 'warn',
   },
 }

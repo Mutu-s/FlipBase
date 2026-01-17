@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import React from 'react'
 import ConnectBtn from './ConnectBtn'
 import { useFarcaster } from './FarcasterProvider'
@@ -18,9 +19,11 @@ const Header: React.FC = () => {
           {isFarcaster && user && (
             <div className="flex items-center space-x-2 text-sm">
               {user.pfp && (
-                <img 
+                <Image 
                   src={user.pfp} 
                   alt={user.displayName || user.username || 'User'} 
+                  width={32}
+                  height={32}
                   className="w-8 h-8 rounded-full"
                 />
               )}
