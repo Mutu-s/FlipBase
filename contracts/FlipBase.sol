@@ -65,7 +65,7 @@ contract FlipBase is Ownable, ReentrancyGuard, ERC20 {
   mapping(uint256 => mapping(address => bool)) isInvited;
   mapping(uint256 => InvitationStruct[]) invitationsOf;
 
-  constructor(uint256 _pct) ERC20('FlipBase', 'FLIP') {
+  constructor(uint256 _pct) ERC20('FlipBase', 'FLIP') Ownable(msg.sender) {
     servicePct = _pct;
   }
 
