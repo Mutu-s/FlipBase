@@ -17,7 +17,9 @@
   ],
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "compile": "hardhat compile",
+    "build": "yarn compile && next build",
+    "build:skip-compile": "next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --ignore-path .gitignore \"**/*.{ts,js,tsx,jsx,json,css,md}\" --write",

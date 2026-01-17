@@ -6,12 +6,18 @@ import { store } from '@/store'
 import { reportError } from '@/utils/helper'
 
 // Import ABI - will be available after running: yarn compile
-let flipBaseAbi: any
+let flipBaseAbi: any = { abi: [] }
+
 try {
-  flipBaseAbi = require('@/artifacts/contracts/FlipBase.sol/FlipBase.json')
+  // Dynamic import for build compatibility
+  if (typeof require !== 'undefined') {
+    flipBaseAbi = require('@/artifacts/contracts/FlipBase.sol/FlipBase.json')
+  }
 } catch (error) {
-  console.warn('⚠️  Contract ABI not found. Please run: yarn compile')
-  flipBaseAbi = { abi: [] }
+  // ABI will be empty - contract methods won't work until compiled
+  if (process.env.NODE_ENV !== 'production') {
+    console.warn('⚠️  Contract ABI not found. Please run: yarn compile')
+  }
 }
 
 const toWei = (num: number) => ethers.parseEther(num.toString())
