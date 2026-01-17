@@ -75,8 +75,10 @@ const Page: NextPage<PageComponents> = ({ gameData, playerAddresses, scoresData 
   const [allCardsFlipped, setAllCardsFlipped] = useState<boolean>(false)
 
   useEffect(() => {
-    setPlayer(scoresData.filter((player) => player.player === address)[0])
-  }, [])
+    if (address && scoresData) {
+      setPlayer(scoresData.filter((player) => player.player === address)[0])
+    }
+  }, [address, scoresData])
 
   const [cards, setCards] = useState<GameCardStruct[]>(
     shuffleCards(
