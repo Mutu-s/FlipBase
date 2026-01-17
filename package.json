@@ -39,7 +39,7 @@
   "dependencies": {
     "@headlessui/react": "^2.1.0",
     "@rainbow-me/rainbowkit": "^2.1.0",
-    "@rainbow-me/rainbowkit-siwe-next-auth": "^1.0.0",
+    "@rainbow-me/rainbowkit-siwe-next-auth": "^0.3.0",
     "@reduxjs/toolkit": "^2.2.0",
     "@tanstack/react-query": "^5.51.0",
     "@types/node": "^20.14.0",
