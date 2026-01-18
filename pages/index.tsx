@@ -10,14 +10,30 @@ import Head from 'next/head'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-const Page: NextPage<{ gamesData: GameStruct[] }> = ({ gamesData }) => {
+const Page: NextPage = () => {
   const dispatch = useDispatch()
   const { setGames } = globalActions
   const { games } = useSelector((states: RootState) => states.globalStates)
 
+  // Load games on client-side to avoid server-side errors
   useEffect(() => {
-    dispatch(setGames(gamesData))
-  }, [dispatch, setGames, gamesData])
+    const loadGames = async () => {
+      try {
+        const { getGames } = await import('@/services/blockchain')
+        const gamesData = await getGames()
+        dispatch(setGames(gamesData))
+      } catch (error) {
+        console.error('Error loading games:', error)
+        // Continue with empty games array
+        dispatch(setGames([]))
+      }
+    }
+
+    // Only load if games are empty
+    if (games.length === 0) {
+      loadGames()
+    }
+  }, [dispatch, setGames, games])
 
   return (
     <div>
@@ -49,23 +65,3 @@ const Page: NextPage<{ gamesData: GameStruct[] }> = ({ gamesData }) => {
 }
 
 export default Page
-
-export const getServerSideProps = async () => {
-  try {
-    const gamesData: GameStruct[] = await getGames()
-    return {
-      props: { gamesData: JSON.parse(JSON.stringify(gamesData)) },
-    }
-  } catch (error: any) {
-    // Log detailed error for debugging
-    console.error('Error in getServerSideProps:', {
-      message: error?.message,
-      stack: error?.stack,
-      name: error?.name,
-    })
-    // Return empty array on error to prevent 500
-    return {
-      props: { gamesData: [] },
-    }
-  }
-}
